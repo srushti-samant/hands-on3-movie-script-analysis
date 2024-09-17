@@ -14,6 +14,28 @@ public class DialogueLengthMapper extends Mapper<Object, Text, Text, IntWritable
 
     @Override
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        // Split the input line by ": " to separate character name from dialogue
+        String line = value.toString();
+        String[] parts = line.split(": ", 2); // Assumes "CharacterName: Dialogue" format
 
+        if (parts.length == 2) {
+            String characterName = parts[0].trim();
+            String dialogue = parts[1].trim();
+
+            // Tokenize the dialogue to count the words
+            StringTokenizer itr = new StringTokenizer(dialogue);
+            int wordCountInDialogue = 0;
+
+            while (itr.hasMoreTokens()) {
+                itr.nextToken();
+                wordCountInDialogue++;
+            }
+
+            character.set(characterName);
+            wordCount.set(wordCountInDialogue);
+
+            // Emit (CharacterName, WordCount)
+            context.write(character, wordCount);
+        }
     }
 }

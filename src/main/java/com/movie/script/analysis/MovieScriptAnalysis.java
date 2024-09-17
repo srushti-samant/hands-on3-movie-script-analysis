@@ -35,7 +35,7 @@ public class MovieScriptAnalysis {
         FileOutputFormat.setOutputPath(job2, new Path(args[2] + "/task2"));
         job2.waitForCompletion(true);
 
-        // Task 3: Unique Words by Character
+        //Task 3: Unique Words by Character
         Job job3 = Job.getInstance(conf, "Unique Words by Character");
         job3.setJarByClass(MovieScriptAnalysis.class);
         job3.setMapperClass(UniqueWordsMapper.class);
